@@ -25,3 +25,13 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+nav{
+
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(49,81,61)
+    )
+    rgb(var(--background-start-rgb));
+
+}
