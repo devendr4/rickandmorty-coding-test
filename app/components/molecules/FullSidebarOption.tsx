@@ -11,7 +11,7 @@ export const FullSidebarOption: FC<
 > = ({ children, Icon, optionOpen, title, handleClick }) => {
   console.log(children);
   return (
-    <li className="p-3 flex flex-col">
+    <li className="flex flex-col p-3">
       <SidebarOptionBtn
         title={title}
         Icon={Icon}
@@ -21,12 +21,12 @@ export const FullSidebarOption: FC<
       {optionOpen.isOpen && optionOpen.title === title && children && (
         <motion.div
           key={optionOpen.title}
-          className="flex flex-col ml-3 items-center "
+          className="ml-3 flex flex-col items-center "
           initial={{ opacity: 0, y: -200 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 200 }}
         >
-          {children.map((child) => (
+          {children.map(child => (
             <SidebarOptionBtn
               key={child.title}
               title={child.title}

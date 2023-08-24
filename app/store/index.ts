@@ -10,9 +10,9 @@ interface RootState {
 export const useRootStore = create<RootState>()(
   devtools(
     persist(
-      (set) => ({
+      set => ({
         userData: undefined,
-        setUserData: (user) => set(() => ({ userData: user })),
+        setUserData: user => set(() => ({ userData: user })),
       }),
       { name: "rootStore" }
     )

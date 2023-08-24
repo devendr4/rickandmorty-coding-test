@@ -7,7 +7,7 @@ export const SidebarOptionBtn: FC<
 > = ({ title, Icon, hasChildren, onClick }) => {
   return (
     <button
-      className="p-3 w-full hover:scale-105 transition ease-in-out delay-150 duration-200"
+      className="w-full p-3 transition delay-150 duration-200 ease-in-out hover:scale-105"
       onClick={onClick}
     >
       <span className="flex items-center gap-2">

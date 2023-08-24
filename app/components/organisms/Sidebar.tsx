@@ -49,14 +49,14 @@ const Sidebar = () => {
     <AnimatePresence mode="wait">
       <nav
         className={`bg-green ${open ? "w-10/12" : "w-0"}
-		  overflow-hidden
 		  transition-width
-		  ease-in-out
-		  duration-300
-		  delay-150
-		  sticky h-screen md:w-2/12 top-0  z-50 text-2xl md:text-base`}
+		  sticky
+		  top-0
+		  z-50
+		  h-screen
+		  overflow-hidden text-2xl delay-150 duration-300  ease-in-out md:w-2/12 md:text-base`}
       >
-        <ul className="flex flex-col w-full h-full gap-4 ">
+        <ul className="flex h-full w-full flex-col gap-4 ">
           {options.map(
             ({ title, Icon, children, auth }) =>
               (!auth || userData) && (
