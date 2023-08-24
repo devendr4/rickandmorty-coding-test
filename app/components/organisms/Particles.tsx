@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import type { Container, Engine } from "tsparticles-engine";
 import Particles from "react-particles";
-//import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
+// import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from "tsparticles-slim";
 
 const ParticlesBackground = () => {
@@ -32,6 +32,11 @@ const ParticlesBackground = () => {
         background: {
           color: "#000",
         },
+        fullScreen: {
+          enable: true,
+          zIndex: -100,
+        },
+
         detectRetina: false,
         fpsLimit: 30,
         interactivity: {
