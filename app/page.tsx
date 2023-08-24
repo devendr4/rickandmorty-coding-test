@@ -1,7 +1,10 @@
 export default function Home() {
   return (
-    <main className="absolute flex min-h-screen flex-col items-center justify-between p-24">
-      {/* <h1 className="font-schwifty text-cyan mb-4 text-7xl">welcome</h1> */}
-    </main>
+    <div className="mt-20 flex flex-col items-center justify-center">
+      <h1 className="mb-4 font-schwifty text-7xl text-cyan">
+        welcome to the <br />
+        rick and morty docs
+      </h1>
+    </div>
   );
 }

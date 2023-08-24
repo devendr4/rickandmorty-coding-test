@@ -18,10 +18,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className + "flex"}>
+      <body className={inter.className}>
+        <div className="flex">
+          <div className="w-2/12">
+            <Sidebar />
+          </div>
+          <main className="w-10/12">{children}</main>
+        </div>
         <ParticlesBackground />
-        <Sidebar />
-        {children}
       </body>
     </html>
   );

@@ -50,10 +50,11 @@ const Sidebar = () => {
       <nav
         className={`bg-green ${open ? "w-10/12" : "w-0"}
 		  transition-width
-		  sticky
+		  absolute
 		  top-0
 		  z-50
 		  h-screen
+		  min-h-screen
 		  overflow-hidden text-2xl delay-150 duration-300  ease-in-out md:w-2/12 md:text-base`}
       >
         <ul className="flex h-full w-full flex-col gap-4 ">
