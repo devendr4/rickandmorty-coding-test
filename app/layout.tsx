@@ -19,11 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex">
-          <Sidebar />
-          <ParticlesBackground />
-          {children}
-        </div>
+        <ParticlesBackground />
+        <Sidebar />
+        {children}
       </body>
     </html>
   );
