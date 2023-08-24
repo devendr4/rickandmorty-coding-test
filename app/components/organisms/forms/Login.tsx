@@ -13,7 +13,7 @@ interface Inputs {
 }
 
 export const LoginForm = () => {
-  const { userData } = useRootStore();
+  const { userData, setLoggedIn } = useRootStore();
   const router = useRouter();
 
   console.log(userData);
@@ -43,18 +43,18 @@ export const LoginForm = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<Inputs> = () => {
+    setLoggedIn();
     router.replace("/");
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <h2>Login</h2>
+      {/* <h2>Login</h2> */}
       <label>username</label>
       <input defaultValue="" {...register("username")} />
       <p>{errors.username?.message}</p>
       <label>password</label>
-      <input type={"text"} {...register("pwd")} />
+      <input type={"password"} {...register("pwd")} />
       <p>{errors.pwd?.message}</p>
-      <label>confirm password</label>
       <Button className="border-dark-blue p-2" type="submit">
         submit
       </Button>

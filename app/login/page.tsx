@@ -7,12 +7,13 @@ import { useRootStore } from "../store";
 export default function Login() {
   const { userData } = useRootStore();
   return (
-    <main className="absolute left-0 right-0 top-0">
-      <div className="flex h-screen flex-col items-center justify-center text-dark-blue">
-        <Card className="w-2/6">
-          {userData ? <LoginForm /> : <RegisterForm />}
-        </Card>
-      </div>
-    </main>
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 text-dark-blue">
+      <h1 className="font-schwifty text-5xl text-cyan">
+        {userData ? "Login" : "Register"}
+      </h1>
+      <Card className="w-10/12 md:w-3/6">
+        {userData ? <LoginForm /> : <RegisterForm />}
+      </Card>
+    </div>
   );
 }

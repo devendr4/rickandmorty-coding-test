@@ -19,8 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex">
-          <div className="w-2/12">
+        <div className="flex justify-center">
+          <div className="md:w-2/12">
             <Sidebar />
           </div>
           <main className="w-10/12">{children}</main>

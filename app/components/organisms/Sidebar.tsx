@@ -10,16 +10,19 @@ import { Hamburger } from "../molecules/Hamburger";
 import { PickleRick } from "../molecules/PickleRick";
 import { FullSidebarOption } from "../molecules/FullSidebarOption";
 import { useRootStore } from "@/app/store";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
-  const { userData } = useRootStore();
+  const { isLoggedIn } = useRootStore();
+  const router = useRouter();
 
   const options: SidebarOption[] = [
-    { title: "home", Icon: HiHome },
+    { title: "home", Icon: HiHome, route: "/" },
     {
       title: "create",
       Icon: BsPlusCircle,
       auth: true,
+      route: "/create",
     },
     {
       title: "queries",
@@ -29,10 +32,12 @@ const Sidebar = () => {
         {
           title: "characters",
           Icon: BsFillPersonFill,
+          route: "/queries/characters",
         },
         {
           title: "episodes",
           Icon: PiTelevision,
+          route: "/queries/episodes",
         },
       ],
     },
@@ -59,19 +64,23 @@ const Sidebar = () => {
       >
         <ul className="flex h-full w-full flex-col gap-4 ">
           {options.map(
-            ({ title, Icon, children, auth }) =>
-              (!auth || userData) && (
+            ({ title, Icon, children, auth, route }) =>
+              (!auth || isLoggedIn) && (
                 <FullSidebarOption
                   key={title}
                   title={title}
                   Icon={Icon}
                   optionOpen={optionOpen}
                   handleClick={() => {
-                    setOptionOpen({
-                      title,
-                      isOpen:
-                        title === optionOpen.title ? !optionOpen.isOpen : true,
-                    });
+                    !children && route
+                      ? router.push(route)
+                      : setOptionOpen({
+                          title,
+                          isOpen:
+                            title === optionOpen.title
+                              ? !optionOpen.isOpen
+                              : true,
+                        });
                   }}
                 >
                   {children}

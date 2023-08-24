@@ -3,6 +3,7 @@ import { IconType } from "react-icons";
 export interface SidebarOption {
   title: string;
   Icon: IconType;
+  route?: string;
   children?: SidebarOption[];
   auth?: boolean;
 }

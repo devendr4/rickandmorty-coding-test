@@ -5,6 +5,7 @@ import { useRootStore } from "@/app/store";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../../atoms/Button";
+import { useRouter } from "next/navigation";
 
 interface Inputs {
   username: string;
@@ -32,6 +33,7 @@ const schema = yup
   .required();
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -41,20 +43,21 @@ export const RegisterForm = () => {
   });
   const { setUserData } = useRootStore();
   const onSubmit: SubmitHandler<Inputs> = data => {
-    console.log(data);
-    setUserData(data);
+    setUserData({ username: data.username, pwd: data.pwd });
+
+    router.replace("/");
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      <h2>Register</h2>
+      {/* <h2>Register</h2> */}
       <label>username</label>
       <input defaultValue="" {...register("username")} />
       <p>{errors.username?.message}</p>
       <label>password</label>
-      <input type={"text"} {...register("pwd")} />
+      <input type={"password"} {...register("pwd")} />
       <p>{errors.pwd?.message}</p>
       <label>confirm password</label>
-      <input type={"text"} {...register("confirmPwd")} />
+      <input type={"password"} {...register("confirmPwd")} />
       <p>{errors.confirmPwd?.message}</p>
       <Button className="border-dark-blue p-2" type="submit">
         submit

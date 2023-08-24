@@ -4,7 +4,9 @@ import { UserData } from "../types";
 
 interface RootState {
   userData?: UserData;
+  isLoggedIn?: boolean;
   setUserData: (user: UserData) => void;
+  setLoggedIn: () => void;
 }
 
 export const useRootStore = create<RootState>()(
@@ -12,9 +14,13 @@ export const useRootStore = create<RootState>()(
     persist(
       set => ({
         userData: undefined,
-        setUserData: user => set(() => ({ userData: user })),
+        setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
+        setLoggedIn: () => set(() => ({ isLoggedIn: true })),
       }),
-      { name: "rootStore" }
+      {
+        partialize: state => ({ userData: state.userData }),
+        name: "rootStore",
+      }
     )
   )
 );
