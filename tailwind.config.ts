@@ -7,6 +7,7 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: { schwifty: "get-schwifty" },
     colors: {
       green: "#9fc740",
       "dark-blue": "#1e2144",

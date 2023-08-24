@@ -32,6 +32,11 @@ const ParticlesBackground = () => {
         background: {
           color: "#000",
         },
+        fullScreen: {
+          enable: true,
+          zIndex: 0,
+        },
+
         detectRetina: false,
         fpsLimit: 30,
         interactivity: {

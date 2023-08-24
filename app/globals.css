@@ -1,6 +1,12 @@
+
+@font-face{
+	font-family:"get-schwifty";
+	src:url('/get_schwifty.ttf');
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
