@@ -8,7 +8,7 @@ interface RootState {
   isLoggedIn?: boolean;
   setUserData: (user: UserData) => void;
   setLoggedIn: () => void;
-  getCharacters: (filters: CharacterFilters) => Promise<void>;
+  getCharacters: (filters?: CharacterFilters) => Promise<void>;
   characterInfo?: CharacterInfo;
 }
 
@@ -23,7 +23,7 @@ export const useRootStore = create<RootState>()(
         setLoggedIn: () => set(() => ({ isLoggedIn: true })),
         getCharacters: async filters => {
           const data = await getCharacters({
-            page: filters.page || 0,
+            page: filters?.page || 0,
             filter: { ...filters },
           });
           set(() => ({ characterInfo: data }));

@@ -15,6 +15,9 @@ export const CharacterFiltersForm = () => {
   const onSubmit: SubmitHandler<Inputs> = async data => {
     await getCharacters({ ...data });
   };
+  const clear = async () => {
+    await getCharacters();
+  };
   return (
     <form
       className="flex flex-wrap  bg-green p-4"
@@ -38,8 +41,11 @@ export const CharacterFiltersForm = () => {
           <input type="text" {...register("species")} />
         </div>
       </div>
-      <div className="flex w-2/12 items-center justify-center">
+      <div className="flex w-2/12 flex-col items-center justify-center gap-2">
         <Button type="submit">Submit</Button>
+        <Button onClick={clear} variant="secondary">
+          Clear
+        </Button>
       </div>
     </form>
   );

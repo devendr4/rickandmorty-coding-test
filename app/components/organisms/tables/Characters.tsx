@@ -104,7 +104,7 @@ export const CharactersTable: FC<{
   });
 
   return (
-    <div className="h-3/4 overflow-scroll">
+    <div className="h-3/4 overflow-auto">
       <CharacterFiltersForm />
       <div className="container mx-auto  space-y-4   bg-cyan">
         <Table>
