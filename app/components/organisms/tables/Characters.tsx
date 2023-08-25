@@ -34,25 +34,7 @@ import { CharacterFiltersForm } from "../../molecules/CharacterFilters";
 //
 export const columns: ColumnDef<Character>[] = [
   {
-    header: "",
-    accessorKey: "image",
-    //render image in a custom cell
-    cell: props => (
-      <Image
-        className="hidden md:block"
-        src={props.row.original.image}
-        alt={props.row.original.name}
-        width={100}
-        height={100}
-      />
-    ),
-  },
-  { header: "Name", accessorKey: "name" },
-  { header: "Gender", accessorKey: "gender" },
-  { header: "Status", accessorKey: "status" },
-  { header: "Species", accessorKey: "species" },
-  { header: "Type", accessorKey: "type" },
-  {
+    header: "Action",
     id: "actions",
     cell: ({ row }) => {
       const character = row.original;
@@ -83,6 +65,25 @@ export const columns: ColumnDef<Character>[] = [
       );
     },
   },
+  {
+    header: "",
+    accessorKey: "image",
+    //render image in a custom cell
+    cell: props => (
+      <Image
+        className="hidden md:block"
+        src={props.row.original.image}
+        alt={props.row.original.name}
+        width={100}
+        height={100}
+      />
+    ),
+  },
+  { header: "Name", accessorKey: "name" },
+  { header: "Gender", accessorKey: "gender" },
+  { header: "Status", accessorKey: "status" },
+  { header: "Species", accessorKey: "species" },
+  { header: "Type", accessorKey: "type" },
 ];
 
 export const CharactersTable: FC<{
@@ -104,13 +105,13 @@ export const CharactersTable: FC<{
   });
 
   return (
-    <div className="h-3/4 overflow-auto">
+    <div className="rounded-xl">
       <CharacterFiltersForm />
-      <div className="container mx-auto  space-y-4   bg-cyan">
+      <div className="rounded-b-md bg-cyan">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="text-white">
                 {headerGroup.headers.map(header => {
                   return (
                     <TableHead key={header.id}>
@@ -155,7 +156,9 @@ export const CharactersTable: FC<{
             )}
           </TableBody>
         </Table>
-        <DataTablePagination table={table} />
+        <div className="border-t-2 border-white p-3">
+          <DataTablePagination table={table} />
+        </div>
       </div>
     </div>
   );

@@ -11,16 +11,16 @@ interface Inputs {
 
 export const CharacterFiltersForm = () => {
   const { register, handleSubmit } = useForm<Inputs>();
-  const { getCharacters } = useRootStore();
+  const { setFilters, getCharacters } = useRootStore();
   const onSubmit: SubmitHandler<Inputs> = async data => {
-    await getCharacters({ ...data });
+    await setFilters(data);
   };
   const clear = async () => {
-    await getCharacters();
+    await setFilters(undefined);
   };
   return (
     <form
-      className="flex flex-wrap  bg-green p-4"
+      className="flex flex-wrap rounded-t-md  bg-green p-4"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex w-10/12 flex-wrap justify-around gap-2">

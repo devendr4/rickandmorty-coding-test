@@ -20,11 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex max-h-screen justify-center">
-          <div className="md:w-2/12">
-            <Sidebar />
-          </div>
-          <main className="flex w-10/12 justify-center">{children}</main>
+        <div className="md:flex">
+          <Sidebar />
+          {children}
           {/* <Toaster /> */}
         </div>
         <ParticlesBackground />

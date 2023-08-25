@@ -23,8 +23,10 @@ export default function CharactersQuery() {
   //   characters: [],
   // });
   return (
-    <div className="flex max-h-screen w-full flex-col items-center justify-center gap-4 p-5 text-dark-blue ">
-      <h1 className="font-schwifty text-5xl text-cyan">Characters</h1>
+    <div className="mt-5  p-3">
+      <h1 className="mb-2 text-center font-schwifty text-5xl text-cyan">
+        Characters
+      </h1>
       {characterInfo && <CharactersTable characterInfo={characterInfo} />}
     </div>
   );
