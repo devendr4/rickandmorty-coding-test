@@ -1,7 +1,15 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { Character, CharacterFilters, CharacterInfo, UserData } from "../types";
+import {
+  Character,
+  CharacterFilters,
+  CharacterInfo,
+  EpisodeFilters,
+  EpisodeInfo,
+  UserData,
+} from "../types";
 import { getCharacters } from "../services/getCharacters";
+import { getEpisodes } from "../services/getEpisodes";
 
 interface RootState {
   userData?: UserData;
@@ -9,8 +17,11 @@ interface RootState {
   setUserData: (user: UserData) => void;
   setLoggedIn: () => void;
   getCharacters: () => Promise<void>;
+  getEpisodes: () => Promise<void>;
   characterInfo?: CharacterInfo;
+  episodeInfo?: EpisodeInfo;
   characterFilters?: CharacterFilters;
+  episodeFilters?: EpisodeFilters;
   setFilters: (filters?: CharacterFilters) => Promise<void>;
 }
 
@@ -29,6 +40,14 @@ export const useRootStore = create<RootState>()(
             characterFilters: { ...get().characterFilters, ...filters },
           }));
           await get().getCharacters();
+        },
+        getEpisodes: async () => {
+          const filters = get().episodeFilters;
+          const episodes = await getEpisodes({
+            page: filters?.page || 0,
+            filter: { ...filters },
+          });
+          set(() => ({ episodeInfo: episodes }));
         },
         getCharacters: async () => {
           const filters = get().characterFilters;

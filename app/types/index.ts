@@ -42,3 +42,21 @@ export interface CharacterFilters {
   status?: string;
   species?: string;
 }
+
+export interface Episode {
+  id: number;
+  name: string;
+  air_date: string;
+  episode: string;
+}
+
+export interface EpisodeInfo {
+  info: Info;
+  episodes: Episode[];
+}
+
+export interface EpisodeFilters {
+  page?: number;
+  name?: string;
+  episode?: string;
+}
