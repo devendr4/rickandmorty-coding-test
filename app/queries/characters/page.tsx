@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function CharactersQuery() {
   const { getCharacters, characterInfo } = useRootStore();
   useEffect(() => {
-    getCharacters({ page: 0 }).then(v => console.log(v));
+    getCharacters().then(v => console.log(v));
 
     // console.log("getting");
     // getCharacters({ page: 0 })
