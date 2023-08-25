@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { CharacterFilters, CharacterInfo, UserData } from "../types";
+import { Character, CharacterFilters, CharacterInfo, UserData } from "../types";
 import { getCharacters } from "../services/getCharacters";
 
 interface RootState {
@@ -22,11 +22,21 @@ export const useRootStore = create<RootState>()(
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
         setLoggedIn: () => set(() => ({ isLoggedIn: true })),
         getCharacters: async filters => {
+          let cachedCharacters: Character[] = JSON.parse(
+            localStorage.getItem("characters") || "{}"
+          );
           const data = await getCharacters({
             page: filters?.page || 0,
             filter: { ...filters },
           });
-          set(() => ({ characterInfo: data }));
+          cachedCharacters = [
+            ...new Set([...cachedCharacters, ...data.characters]),
+          ];
+
+          localStorage.setItem("characters", JSON.stringify(cachedCharacters));
+          set(() => ({
+            characterInfo: { info: data.info, characters: cachedCharacters },
+          }));
         },
       }),
       {
