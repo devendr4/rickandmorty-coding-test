@@ -23,7 +23,7 @@ export default function CharactersQuery() {
   //   characters: [],
   // });
   return (
-    <div className="mt-5  p-3">
+    <div className="container mt-5  w-full">
       <h1 className="mb-2 text-center font-schwifty text-5xl text-cyan">
         Characters
       </h1>

@@ -62,7 +62,7 @@ export function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="flex h-8 w-8 p-0"
             onClick={async () => {
               await setFilters({
                 page: 0,
@@ -105,7 +105,7 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className=" flex h-8 w-8 p-0"
             onClick={async () => {
               await setFilters({
                 page: table.getPageCount(),
