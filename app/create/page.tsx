@@ -1,11 +1,16 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { Card } from "../components/atoms/Card";
+import { NewCharacterForm } from "../components/organisms/forms/NewCharacter";
 
 export default function Create() {
-  const router = useRouter();
   return (
-    <div className="mt-20 flex  h-screen flex-col items-center justify-center">
-      <h1>Create a new character</h1>
+    <div className="mt-20 flex  h-screen w-full flex-col items-center justify-center">
+      <h1 className="mb-2 font-schwifty text-5xl text-cyan">
+        Create a new character
+      </h1>
+      <Card className="bg-cyan">
+        <NewCharacterForm />
+      </Card>
     </div>
   );
 }

@@ -47,10 +47,8 @@ export const useRootStore = create<RootState>()(
               ...data.characters.filter(newChar => !cachedIds.has(newChar.id)),
             ]),
           ];
-
           console.log(cachedCharacters);
           localStorage.setItem("characters", JSON.stringify(cachedCharacters));
-
           cachedCharacters = cachedCharacters.filter(char => {
             if (
               filters?.status ||

@@ -7,7 +7,7 @@ export default function Login() {
   const router = useRouter();
   const { isLoggedIn } = useRootStore();
   return (
-    <div className="mt-20 flex flex-col items-center justify-center gap-4 text-center">
+    <div className="mt-20 flex w-full flex-col items-center justify-center gap-4 text-center">
       <h1 className="mb-4 text-center font-schwifty text-7xl text-cyan">
         welcome to the <br />
         rick and morty docs
@@ -27,13 +27,13 @@ export default function Login() {
           </Button>
           <Button
             variant="secondary"
-            onClick={() => router.push("/query/characters")}
+            onClick={() => router.push("/queries/characters")}
           >
             Browse characters
           </Button>
           <Button
             variant="secondary"
-            onClick={() => router.push("/query/episodes")}
+            onClick={() => router.push("/queries/episodes")}
           >
             Browse episodes
           </Button>
