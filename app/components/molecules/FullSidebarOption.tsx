@@ -2,6 +2,7 @@ import { FC } from "react";
 import { SidebarOptionBtn } from "../atoms/SidebarOptionBtn";
 import { SidebarOption } from "@/app/types";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export const FullSidebarOption: FC<
   SidebarOption & {
@@ -9,7 +10,8 @@ export const FullSidebarOption: FC<
     handleClick: () => void;
   }
 > = ({ children, Icon, optionOpen, title, handleClick }) => {
-  console.log(children);
+  const route = useRouter();
+
   return (
     <li className="flex flex-col p-3">
       <SidebarOptionBtn
@@ -32,7 +34,11 @@ export const FullSidebarOption: FC<
               title={child.title}
               Icon={child.Icon}
               hasChildren={!!child.children}
-              onClick={handleClick}
+              onClick={() =>
+                !child.children && child.route
+                  ? route.push(child.route)
+                  : handleClick()
+              }
             />
           ))}
         </motion.div>

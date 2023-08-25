@@ -14,6 +14,7 @@ export const useRootStore = create<RootState>()(
     persist(
       set => ({
         userData: undefined,
+        isLoggedIn: true,
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
         setLoggedIn: () => set(() => ({ isLoggedIn: true })),
       }),
