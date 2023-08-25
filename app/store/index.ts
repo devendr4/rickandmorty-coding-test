@@ -50,6 +50,7 @@ export const useRootStore = create<RootState>()(
 
           console.log(cachedCharacters);
           localStorage.setItem("characters", JSON.stringify(cachedCharacters));
+
           cachedCharacters = cachedCharacters.filter(char => {
             if (
               filters?.status ||
