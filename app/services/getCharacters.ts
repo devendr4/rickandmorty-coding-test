@@ -29,6 +29,7 @@ export const getCharacters = async ({
 					prev
 				}
 				results {
+					id
 					name
 					species
 					status

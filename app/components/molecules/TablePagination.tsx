@@ -51,7 +51,7 @@ export function DataTablePagination<TData>({
   const { pageIndex } = table.getState().pagination;
 
   const pageCount = table.getPageCount();
-  const { getCharacters } = useRootStore();
+  const { setFilters } = useRootStore();
   console.log(pageIndex, pageCount);
   return (
     <div className="flex items-center justify-center px-2">
@@ -62,9 +62,9 @@ export function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="flex h-8 w-8 p-0"
             onClick={async () => {
-              await getCharacters({
+              await setFilters({
                 page: 0,
               });
 
@@ -79,7 +79,7 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={async () => {
-              await getCharacters({
+              await setFilters({
                 page: table.getState().pagination.pageIndex - 1,
               });
               table.previousPage();
@@ -93,7 +93,7 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={async () => {
-              await getCharacters({
+              await setFilters({
                 page: table.getState().pagination.pageIndex + 1,
               });
               table.nextPage();
@@ -105,9 +105,9 @@ export function DataTablePagination<TData>({
           </Button>
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className=" flex h-8 w-8 p-0"
             onClick={async () => {
-              await getCharacters({
+              await setFilters({
                 page: table.getPageCount(),
               });
               table.setPageIndex(table.getPageCount() - 1);
