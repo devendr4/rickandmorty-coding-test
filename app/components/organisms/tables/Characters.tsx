@@ -28,6 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../molecules/Dropdown";
+import { CharacterFiltersForm } from "../../molecules/CharacterFilters";
 // import { DataTablePagination } from "../../molecules/TablePagination";
 //
 //
@@ -38,6 +39,7 @@ export const columns: ColumnDef<Character>[] = [
     //render image in a custom cell
     cell: props => (
       <Image
+        className="hidden md:block"
         src={props.row.original.image}
         alt={props.row.original.name}
         width={100}
@@ -85,8 +87,7 @@ export const columns: ColumnDef<Character>[] = [
 
 export const CharactersTable: FC<{
   characterInfo: CharacterInfo;
-  setChars: (inf: CharacterInfo) => void;
-}> = ({ characterInfo: { characters, info }, setChars }) => {
+}> = ({ characterInfo: { characters, info } }) => {
   const table = useReactTable({
     data: characters,
     pageCount: info.pages || 0,
@@ -103,50 +104,59 @@ export const CharactersTable: FC<{
   });
 
   return (
-    <div className="container mx-auto h-3/4 space-y-4 overflow-scroll rounded-md bg-cyan">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map(headerGroup => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map(header => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map(row => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map(cell => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+    <div className="h-3/4 overflow-scroll">
+      <CharacterFiltersForm />
+      <div className="container mx-auto  space-y-4   bg-cyan">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map(headerGroup => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map(header => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results found
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <DataTablePagination table={table} setChars={setChars} />
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map(row => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map(cell => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results found
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <DataTablePagination table={table} />
+      </div>
     </div>
   );
 };

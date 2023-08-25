@@ -2,8 +2,8 @@ import { baseClient } from ".";
 import { CharacterInfo } from "../types";
 
 export const getCharacters = async ({
-  page = 0,
-  filter = { name: "", gender: "", status: "", species: "" },
+  page,
+  filter,
 }: {
   page: number;
   filter?: {
@@ -13,13 +13,14 @@ export const getCharacters = async ({
     gender?: string;
   };
 }): Promise<CharacterInfo> => {
+  console.log(filter);
   const query = `{
-			characters(page: ${page},
+			characters(page: ${page || 0},
 					   filter:{
-						   name:"${filter.name}",
-						   species:"${filter.species}",
-						   gender:"${filter.gender}",
-						   status:"${filter.status}"
+						   name:"${filter?.name || ""}",
+						   species:"${filter?.species || ""}",
+						   gender:"${filter?.gender || ""}",
+						   status:"${filter?.status || ""}"
 			}){
 				info{
 					count

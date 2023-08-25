@@ -39,8 +39,7 @@ import {
 import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/app/components/atoms/Button";
-import { getCharacters } from "@/app/services/getCharacters";
-import { CharacterInfo } from "@/app/types";
+import { useRootStore } from "@/app/store";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
@@ -48,13 +47,11 @@ interface DataTablePaginationProps<TData> {
 
 export function DataTablePagination<TData>({
   table,
-  setChars,
-}: DataTablePaginationProps<TData> & {
-  setChars: (chars: CharacterInfo) => void;
-}) {
+}: DataTablePaginationProps<TData> & {}) {
   const { pageIndex } = table.getState().pagination;
 
   const pageCount = table.getPageCount();
+  const { getCharacters } = useRootStore();
   console.log(pageIndex, pageCount);
   return (
     <div className="flex items-center justify-center px-2">
@@ -67,11 +64,10 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
             onClick={async () => {
-              setChars(
-                await getCharacters({
-                  page: 0,
-                })
-              );
+              await getCharacters({
+                page: 0,
+              });
+
               table.setPageIndex(0);
             }}
             disabled={!(table.getState().pagination.pageIndex > 1)}
@@ -83,11 +79,9 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={async () => {
-              setChars(
-                await getCharacters({
-                  page: table.getState().pagination.pageIndex - 1,
-                })
-              );
+              await getCharacters({
+                page: table.getState().pagination.pageIndex - 1,
+              });
               table.previousPage();
             }}
             disabled={!(table.getState().pagination.pageIndex > 1)}
@@ -99,11 +93,9 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={async () => {
-              setChars(
-                await getCharacters({
-                  page: table.getState().pagination.pageIndex + 1,
-                })
-              );
+              await getCharacters({
+                page: table.getState().pagination.pageIndex + 1,
+              });
               table.nextPage();
             }}
             disabled={!(pageIndex < pageCount)}
@@ -115,11 +107,9 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
             onClick={async () => {
-              setChars(
-                await getCharacters({
-                  page: table.getPageCount(),
-                })
-              );
+              await getCharacters({
+                page: table.getPageCount(),
+              });
               table.setPageIndex(table.getPageCount() - 1);
             }}
             disabled={!(pageIndex < pageCount)}

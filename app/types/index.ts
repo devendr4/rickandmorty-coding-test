@@ -33,3 +33,11 @@ export interface CharacterInfo {
   characters: Character[];
   info: Info;
 }
+
+export interface CharacterFilters {
+  page?: number;
+  name?: string;
+  gender?: string;
+  status?: string;
+  species?: string;
+}
