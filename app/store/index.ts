@@ -22,7 +22,8 @@ interface RootState {
   episodeInfo?: EpisodeInfo;
   characterFilters?: CharacterFilters;
   episodeFilters?: EpisodeFilters;
-  setFilters: (filters?: CharacterFilters) => Promise<void>;
+  setCharacterFilters: (filters?: CharacterFilters) => Promise<void>;
+  setEpisodeFilters: (filters?: CharacterFilters) => Promise<void>;
 }
 
 export const useRootStore = create<RootState>()(
@@ -35,12 +36,23 @@ export const useRootStore = create<RootState>()(
         characterFilters: undefined,
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
         setLoggedIn: () => set(() => ({ isLoggedIn: true })),
-        setFilters: async filters => {
+
+        setCharacterFilters: async filters => {
           set(() => ({
+            // to persist previous filters
             characterFilters: { ...get().characterFilters, ...filters },
           }));
           await get().getCharacters();
         },
+
+        setEpisodeFilters: async filters => {
+          set(() => ({
+            // to persist previous filters
+            episodeFilters: { ...get().episodeFilters, ...filters },
+          }));
+          await get().getEpisodes();
+        },
+
         getEpisodes: async () => {
           const filters = get().episodeFilters;
           const episodes = await getEpisodes({
@@ -49,6 +61,7 @@ export const useRootStore = create<RootState>()(
           });
           set(() => ({ episodeInfo: episodes }));
         },
+
         getCharacters: async () => {
           const filters = get().characterFilters;
           let cachedCharacters: Character[] = JSON.parse(

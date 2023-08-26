@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "../atoms/Button";
+import { Button } from "@/app/components/atoms/Button";
 import { useRootStore } from "@/app/store";
-import { Input } from "../atoms/Input";
+import { Input } from "@/app/components/atoms/Input";
 
 interface Inputs {
   name: string;
@@ -12,12 +12,12 @@ interface Inputs {
 
 export const CharacterFiltersForm = () => {
   const { register, handleSubmit } = useForm<Inputs>();
-  const { setFilters, getCharacters } = useRootStore();
+  const { setCharacterFilters } = useRootStore();
   const onSubmit: SubmitHandler<Inputs> = async data => {
-    await setFilters(data);
+    await setCharacterFilters(data);
   };
   const clear = async () => {
-    await setFilters(undefined);
+    await setCharacterFilters(undefined);
   };
   return (
     <form

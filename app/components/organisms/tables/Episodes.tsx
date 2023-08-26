@@ -27,7 +27,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../molecules/Dropdown";
-import { CharacterFiltersForm } from "../../molecules/CharacterFilters";
+import { EpisodeFiltersForm } from "../forms/EpisodeFilters";
 // import { DataTablePagination } from "../../molecules/TablePagination";
 //
 //
@@ -80,7 +80,7 @@ export const EpisodesTable: FC<{
     state: {
       pagination: {
         pageSize: 20,
-        pageIndex: info?.next ? info.next - 1 : info.prev ? info.prev + 1 : 0,
+        pageIndex: info?.next ? info.next - 1 : info.prev ? info.prev + 1 : 1,
       },
     },
     getCoreRowModel: getCoreRowModel(),
@@ -90,7 +90,7 @@ export const EpisodesTable: FC<{
 
   return (
     <div className="rounded-xl">
-      <CharacterFiltersForm />
+      <EpisodeFiltersForm />
       <div className="rounded-b-md bg-cyan">
         <Table>
           <TableHeader>

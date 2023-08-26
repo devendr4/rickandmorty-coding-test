@@ -28,7 +28,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../molecules/Dropdown";
-import { CharacterFiltersForm } from "../../molecules/CharacterFilters";
+import { CharacterFiltersForm } from "../forms/CharacterFilters";
 // import { DataTablePagination } from "../../molecules/TablePagination";
 //
 //
