@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/app/components/atoms/Button";
 import { useRootStore } from "@/app/store";
-import { Input } from '@/app/components/atoms/Input';
+import { Input } from "@/app/components/atoms/Input";
 
 interface Inputs {
   name: string;
@@ -22,13 +22,13 @@ export const EpisodeFiltersForm = () => {
       className="flex flex-wrap gap-3 rounded-t-md  bg-green p-4"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="Charactersap items-center justify-evenly gap-2 md:w-8/12">
-        <div className="flex  w-full flex-col sm:w-1/3">
+      <div className="flex  flex-wrap items-center justify-around gap-2 md:w-8/12">
+        <div className="flex   flex-col sm:w-1/3">
           <label>Name</label>
           <Input defaultValue="" {...register("name")} />
         </div>
 
-        <div className="flex  w-full flex-col sm:w-1/3">
+        <div className="flex  flex-col sm:w-1/3">
           <label>Episode</label>
           <Input type="text" {...register("episode")} />
         </div>

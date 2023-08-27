@@ -12,7 +12,7 @@ export default function EpisodesQuery() {
   return (
     <div className="container mt-5  w-full">
       <h1 className="mb-2 text-center font-schwifty text-5xl text-cyan">
-        Episode
+        Episodes
       </h1>
       {episodeInfo && <EpisodesTable data={episodeInfo} />}
     </div>

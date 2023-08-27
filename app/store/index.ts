@@ -23,7 +23,7 @@ interface RootState {
   characterFilters?: CharacterFilters;
   episodeFilters?: EpisodeFilters;
   setCharacterFilters: (filters?: CharacterFilters) => Promise<void>;
-  setEpisodeFilters: (filters?: CharacterFilters) => Promise<void>;
+  setEpisodeFilters: (filters?: EpisodeFilters) => Promise<void>;
 }
 
 export const useRootStore = create<RootState>()(

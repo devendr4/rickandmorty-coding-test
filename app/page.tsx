@@ -5,6 +5,7 @@ import { useRootStore } from "./store";
 
 export default function Login() {
   const router = useRouter();
+
   const { isLoggedIn } = useRootStore();
   return (
     <div className="mt-20 flex w-full flex-col items-center justify-center gap-4 text-center">

@@ -5,7 +5,6 @@ import { BsPlusCircle } from "react-icons/bs";
 import { BsFillPersonFill } from "react-icons/bs";
 import { SidebarOption } from "@/app/types";
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import { Hamburger } from "../molecules/Hamburger";
 import { PickleRick } from "../molecules/PickleRick";
 import { FullSidebarOption } from "../molecules/FullSidebarOption";
@@ -77,15 +76,15 @@ const Sidebar = () => {
                   Icon={Icon}
                   optionOpen={optionOpen}
                   handleClick={() => {
-                    !children && route
-                      ? router.push(route)
-                      : setOptionOpen({
-                          title,
-                          isOpen:
-                            title === optionOpen.title
-                              ? !optionOpen.isOpen
-                              : true,
-                        });
+                    if (!children && route) router.push(route);
+                    else
+                      setOptionOpen({
+                        title,
+                        isOpen:
+                          title === optionOpen.title
+                            ? !optionOpen.isOpen
+                            : true,
+                      });
                   }}
                 >
                   {children}
