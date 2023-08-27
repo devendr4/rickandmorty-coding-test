@@ -1,7 +1,15 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { Character, CharacterFilters, CharacterInfo, UserData } from "../types";
+import {
+  Character,
+  CharacterFilters,
+  CharacterInfo,
+  EpisodeFilters,
+  EpisodeInfo,
+  UserData,
+} from "../types";
 import { getCharacters } from "../services/getCharacters";
+import { getEpisodes } from "../services/getEpisodes";
 
 interface RootState {
   userData?: UserData;
@@ -9,9 +17,13 @@ interface RootState {
   setUserData: (user: UserData) => void;
   setLoggedIn: () => void;
   getCharacters: () => Promise<void>;
+  getEpisodes: () => Promise<void>;
   characterInfo?: CharacterInfo;
+  episodeInfo?: EpisodeInfo;
   characterFilters?: CharacterFilters;
-  setFilters: (filters?: CharacterFilters) => Promise<void>;
+  episodeFilters?: EpisodeFilters;
+  setCharacterFilters: (filters?: CharacterFilters) => Promise<void>;
+  setEpisodeFilters: (filters?: EpisodeFilters) => Promise<void>;
 }
 
 export const useRootStore = create<RootState>()(
@@ -24,12 +36,42 @@ export const useRootStore = create<RootState>()(
         characterFilters: undefined,
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
         setLoggedIn: () => set(() => ({ isLoggedIn: true })),
-        setFilters: async filters => {
-          set(() => ({
-            characterFilters: { ...get().characterFilters, ...filters },
-          }));
+
+        setCharacterFilters: async filters => {
+          set(() => {
+            // to persist previous filters
+            // check if filter argument exists for clearing filters
+            const combinedFilters = filters
+              ? { ...get().characterFilters, ...filters }
+              : undefined;
+
+            return { characterFilters: combinedFilters };
+          });
           await get().getCharacters();
         },
+
+        setEpisodeFilters: async filters => {
+          set(() => {
+            // to persist previous filters
+            // check if filter argument exists for clearing filters
+            const combinedFilters = filters
+              ? { ...get().episodeFilters, ...filters }
+              : undefined;
+
+            return { episodeFilters: combinedFilters };
+          });
+          await get().getEpisodes();
+        },
+
+        getEpisodes: async () => {
+          const filters = get().episodeFilters;
+          const episodes = await getEpisodes({
+            page: filters?.page || 0,
+            filter: { ...filters },
+          });
+          set(() => ({ episodeInfo: episodes }));
+        },
+
         getCharacters: async () => {
           const filters = get().characterFilters;
           let cachedCharacters: Character[] = JSON.parse(
@@ -47,10 +89,8 @@ export const useRootStore = create<RootState>()(
               ...data.characters.filter(newChar => !cachedIds.has(newChar.id)),
             ]),
           ];
-
           console.log(cachedCharacters);
           localStorage.setItem("characters", JSON.stringify(cachedCharacters));
-
           cachedCharacters = cachedCharacters.filter(char => {
             if (
               filters?.status ||

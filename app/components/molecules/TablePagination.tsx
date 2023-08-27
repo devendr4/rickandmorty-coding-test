@@ -1,35 +1,3 @@
-/* import { Table } from "@tanstack/react-table";
-
-import { Button } from "@/app/components/atoms/Button";
-
-interface DataTablePaginationProps<TData> {
-  table: Table<TData>;
-}
-
-export function DataTablePagination<TData>({
-  table,
-}: DataTablePaginationProps<TData>) {
-  return (
-    <div className="flex items-center justify-end space-x-2 py-4">
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => table.previousPage()}
-        disabled={!table.getCanPreviousPage()}
-      >
-        Previous
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => table.nextPage()}
-        disabled={!table.getCanNextPage()}
-      >
-        Next
-      </Button>
-    </div>
-  );
-} */
 import {
   RxChevronLeft,
   RxChevronRight,
@@ -40,6 +8,7 @@ import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/app/components/atoms/Button";
 import { useRootStore } from "@/app/store";
+import { useCallback } from "react";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
@@ -47,11 +16,20 @@ interface DataTablePaginationProps<TData> {
 
 export function DataTablePagination<TData>({
   table,
-}: DataTablePaginationProps<TData> & {}) {
+  dataType,
+}: DataTablePaginationProps<TData> & { dataType: "char" | "episode" }) {
   const { pageIndex } = table.getState().pagination;
 
   const pageCount = table.getPageCount();
-  const { setFilters } = useRootStore();
+  const { setCharacterFilters, setEpisodeFilters } = useRootStore();
+
+  const setFilters = useCallback(
+    (filters: { page: number }) => {
+      if (dataType === "char") return setCharacterFilters(filters);
+      return setEpisodeFilters(filters);
+    },
+    [dataType, setCharacterFilters, setEpisodeFilters]
+  );
   console.log(pageIndex, pageCount);
   return (
     <div className="flex items-center justify-center px-2">

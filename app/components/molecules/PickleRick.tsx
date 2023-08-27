@@ -4,7 +4,7 @@ import Image from "next/image";
 export const PickleRick = () => {
   return (
     <motion.div
-      className="mt-auto flex justify-center"
+      className="-z-10 mt-auto flex justify-center"
       initial={{ y: 0, rotate: 0 }}
       animate={{ y: -200, rotate: 180 }}
       transition={{

@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../../atoms/Button";
 import { useRouter } from "next/navigation";
+import { Input } from "../../atoms/Input";
 
 interface Inputs {
   username: string;
@@ -51,13 +52,13 @@ export const RegisterForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       {/* <h2>Register</h2> */}
       <label>username</label>
-      <input defaultValue="" {...register("username")} />
+      <Input defaultValue="" {...register("username")} />
       <p>{errors.username?.message}</p>
       <label>password</label>
-      <input type={"password"} {...register("pwd")} />
+      <Input type={"password"} {...register("pwd")} />
       <p>{errors.pwd?.message}</p>
       <label>confirm password</label>
-      <input type={"password"} {...register("confirmPwd")} />
+      <Input type={"password"} {...register("confirmPwd")} />
       <p>{errors.confirmPwd?.message}</p>
       <Button className="border-dark-blue p-2" type="submit">
         submit

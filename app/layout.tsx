@@ -23,7 +23,7 @@ export default function RootLayout({
         <div className="md:flex">
           <Sidebar />
           {children}
-          {/* <Toaster /> */}
+          <Toaster />
         </div>
         <ParticlesBackground />
       </body>
