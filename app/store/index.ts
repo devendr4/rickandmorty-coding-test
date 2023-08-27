@@ -49,7 +49,6 @@ export const useRootStore = create<RootState>()(
           });
           await get().getCharacters();
         },
-
         setEpisodeFilters: async filters => {
           set(() => {
             // to persist previous filters
