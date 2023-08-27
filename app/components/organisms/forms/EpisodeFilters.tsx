@@ -9,12 +9,13 @@ interface Inputs {
 }
 
 export const EpisodeFiltersForm = () => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
   const { setEpisodeFilters } = useRootStore();
   const onSubmit: SubmitHandler<Inputs> = async data => {
     await setEpisodeFilters(data);
   };
   const clear = async () => {
+    reset();
     await setEpisodeFilters(undefined);
   };
   return (

@@ -38,18 +38,28 @@ export const useRootStore = create<RootState>()(
         setLoggedIn: () => set(() => ({ isLoggedIn: true })),
 
         setCharacterFilters: async filters => {
-          set(() => ({
+          set(() => {
             // to persist previous filters
-            characterFilters: { ...get().characterFilters, ...filters },
-          }));
+            // check if filter argument exists for clearing filters
+            const combinedFilters = filters
+              ? { ...get().characterFilters, ...filters }
+              : undefined;
+
+            return { characterFilters: combinedFilters };
+          });
           await get().getCharacters();
         },
 
         setEpisodeFilters: async filters => {
-          set(() => ({
+          set(() => {
             // to persist previous filters
-            episodeFilters: { ...get().episodeFilters, ...filters },
-          }));
+            // check if filter argument exists for clearing filters
+            const combinedFilters = filters
+              ? { ...get().episodeFilters, ...filters }
+              : undefined;
+
+            return { episodeFilters: combinedFilters };
+          });
           await get().getEpisodes();
         },
 

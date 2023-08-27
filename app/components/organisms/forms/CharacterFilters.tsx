@@ -11,12 +11,13 @@ interface Inputs {
 }
 
 export const CharacterFiltersForm = () => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, reset } = useForm<Inputs>();
   const { setCharacterFilters } = useRootStore();
   const onSubmit: SubmitHandler<Inputs> = async data => {
     await setCharacterFilters(data);
   };
   const clear = async () => {
+    reset();
     await setCharacterFilters(undefined);
   };
   return (
