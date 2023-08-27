@@ -79,20 +79,12 @@ export const NewCharacterForm = () => {
       <p>{errors.type?.message}</p>
       <div className="flex  justify-center gap-2">
         <div className="w-1/2">
-          <label>Status</label>
-          {
-            //@ts-ignore
-            <StatusSelect control={control} />
-          }
+          {<StatusSelect control={control} />}
           <p>{errors.status?.message}</p>
         </div>
 
         <div className="w-1/2">
-          <label>Gender</label>
-          {
-            //@ts-ignore
-            <GenderSelect control={control} />
-          }
+          {<GenderSelect control={control} />}
           <p>{errors.gender?.message}</p>
         </div>
       </div>
