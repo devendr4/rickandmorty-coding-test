@@ -54,12 +54,17 @@ export const NewCharacterForm = () => {
   const { toast } = useToast();
 
   const onSubmit: SubmitHandler<Inputs> = async v => {
-    console.log(v);
-
     const cachedCharacters: Character[] =
       (await localforage.getItem("characters")) || [];
-    console.log(v);
-    cachedCharacters.push({ ...v, id: 1000, image: "" });
+
+    const characterIds = [...cachedCharacters.map(char => char.id)];
+    cachedCharacters.push({
+      ...v,
+      // start new character ids at 10000 to not conflict with API in case new characters are added there
+      // gets max id from previously created characters an adds 1 to keep the continuity
+      id: characterIds.length ? Math.max(...characterIds) + 1 : 10000,
+      image: "https://rickandmortyapi.com/api/character/avatar/19.jpeg",
+    });
     await localforage.setItem("characters", cachedCharacters);
     reset();
     toast({ title: "Character succesfully created!" });

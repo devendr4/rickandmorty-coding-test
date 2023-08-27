@@ -10,6 +10,7 @@ import {
 } from "../types";
 import { getCharacters } from "../services/getCharacters";
 import { getEpisodes } from "../services/getEpisodes";
+import localforage from "localforage";
 
 interface RootState {
   userData?: UserData;
@@ -73,23 +74,17 @@ export const useRootStore = create<RootState>()(
 
         getCharacters: async () => {
           const filters = get().characterFilters;
-          let cachedCharacters: Character[] = JSON.parse(
-            localStorage.getItem("characters") || "[]"
-          );
+          // find created or edited characters
+          let cachedCharacters: Character[] =
+            (await localforage.getItem("characters")) || [];
+
+          // get regular characters from API
           const data = await getCharacters({
             page: filters?.page || 0,
             filter: { ...filters },
           });
 
-          const cachedIds = new Set(cachedCharacters.map(char => char.id));
-          cachedCharacters = [
-            ...new Set([
-              ...cachedCharacters,
-              ...data.characters.filter(newChar => !cachedIds.has(newChar.id)),
-            ]),
-          ];
-          console.log(cachedCharacters);
-          localStorage.setItem("characters", JSON.stringify(cachedCharacters));
+          // filter local cached characters
           cachedCharacters = cachedCharacters.filter(char => {
             if (
               filters?.status ||
@@ -110,14 +105,16 @@ export const useRootStore = create<RootState>()(
 
             return true;
           });
+          const characterCount = data.info.count + cachedCharacters.length;
           set(() => ({
-            characterInfo: data /* {
+            characterInfo: {
               info: {
-                count: cachedCharacters.length,
-                pages: Math.ceil(cachedCharacters.length / 20),
+                count: characterCount,
+                pages: Math.ceil(characterCount / 20),
               },
-              characters: cachedCharacters,
-            } */,
+              //returns both cached and API characters
+              characters: [...cachedCharacters, ...data.characters],
+            },
           }));
         },
       }),
