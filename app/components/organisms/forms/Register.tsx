@@ -35,6 +35,7 @@ const schema = yup
 
 export const RegisterForm = () => {
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -42,10 +43,10 @@ export const RegisterForm = () => {
   } = useForm<Inputs>({
     resolver: yupResolver(schema),
   });
-  const { setUserData } = useRootStore();
+  const { setUserData, setLoggedIn } = useRootStore();
   const onSubmit: SubmitHandler<Inputs> = data => {
     setUserData({ username: data.username, pwd: data.pwd });
-
+    setLoggedIn();
     router.replace("/");
   };
   return (
