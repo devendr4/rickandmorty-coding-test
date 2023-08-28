@@ -20,20 +20,22 @@ const actions: {
       //
     },
   },
-  {
+  /* {
     label: "Edit status",
     handleClick: () => {
       //
     },
-  },
+  }, */
 ];
 interface Props<T> {
   row: Row<T>;
+  handleClick: () => void;
 }
 
-export const ActionsDropdown = <TData extends object>({
-  row,
-}: Props<TData>) => {
+export const ActionsDropdown = <T extends object>({
+  // row,
+  handleClick,
+}: Props<T>) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,13 +48,7 @@ export const ActionsDropdown = <TData extends object>({
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         {actions.map((v, index) => (
           <>
-            <DropdownMenuItem
-              key={v.label}
-              onClick={() => {
-                console.log(row);
-                //
-              }}
-            >
+            <DropdownMenuItem key={v.label} onClick={() => handleClick()}>
               {v.label}
             </DropdownMenuItem>
             {index < actions.length && <DropdownMenuSeparator />}

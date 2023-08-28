@@ -12,6 +12,7 @@ import { FC } from "react";
 interface Props {
   placeholder: string;
   handleChange?: (value: string) => void;
+  defaultValue: string;
   label: string;
   items: {
     value: string;
@@ -24,9 +25,10 @@ export const FullSelect: FC<Props> = ({
   label,
   items,
   handleChange,
+  defaultValue,
 }) => {
   return (
-    <Select onValueChange={handleChange}>
+    <Select onValueChange={handleChange} defaultValue={defaultValue}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

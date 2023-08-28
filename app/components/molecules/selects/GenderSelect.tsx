@@ -13,13 +13,14 @@ export const GenderSelect: FC<{ control: Control<any, any> }> = ({
         control={control}
         render={({ field }) => (
           <FullSelect
+            defaultValue={field.value}
             handleChange={field.onChange}
             placeholder="Gender"
             label="Gender"
             items={[
-              { value: "male", name: "Male" },
-              { value: "female", name: "Female" },
-              { value: "genderless", name: "Genderless" },
+              { value: "Male", name: "Male" },
+              { value: "Female", name: "Female" },
+              { value: "Genderless", name: "Genderless" },
               { value: "unknown", name: "Unknown" },
             ]}
           />

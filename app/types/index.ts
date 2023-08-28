@@ -19,7 +19,7 @@ export interface Character {
   species: string;
   status: string;
   gender: string;
-  type: string;
+  type?: string;
   image: string;
 }
 

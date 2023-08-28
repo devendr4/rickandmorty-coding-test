@@ -13,13 +13,13 @@ export const StatusSelect: FC<{ control: Control<any, any> }> = ({
         control={control}
         render={({ field }) => (
           <FullSelect
+            defaultValue={field.value}
             handleChange={field.onChange}
-            {...field}
             placeholder="Status"
             label="Status"
             items={[
-              { value: "dead", name: "Dead" },
-              { value: "alive", name: "Alive" },
+              { value: "Dead", name: "Dead" },
+              { value: "Alive", name: "Alive" },
               { value: "unknown", name: "Unknown" },
             ]}
           />
