@@ -2,6 +2,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/app/components/atoms/Button";
 import { useRootStore } from "@/app/store";
 import { Input } from "@/app/components/atoms/Input";
+import { StatusSelect } from "../../molecules/selects/StatusSelect";
+import { GenderSelect } from "../../molecules/selects/GenderSelect";
 
 interface Inputs {
   name: string;
@@ -11,7 +13,7 @@ interface Inputs {
 }
 
 export const CharacterFiltersForm = () => {
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { register, handleSubmit, reset, control } = useForm<Inputs>();
   const { setCharacterFilters } = useRootStore();
   const onSubmit: SubmitHandler<Inputs> = async data => {
     await setCharacterFilters(data);
@@ -30,14 +32,15 @@ export const CharacterFiltersForm = () => {
           <label>Name</label>
           <Input defaultValue="" {...register("name")} />
         </div>
-        <div className="flex w-full flex-col sm:w-1/3">
-          <label>Gender</label>
-          <Input type="text" {...register("gender")} />
-        </div>
+
         <div className="flex  w-full flex-col sm:w-1/3">
-          <label>Status</label>
-          <Input type="text" {...register("status")} />
+          <GenderSelect control={control} />
         </div>
+
+        <div className="flex  w-full flex-col sm:w-1/3">
+          <StatusSelect control={control} />
+        </div>
+
         <div className="flex  w-full flex-col sm:w-1/3">
           <label>Species</label>
           <Input type="text" {...register("species")} />

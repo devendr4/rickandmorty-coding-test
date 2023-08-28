@@ -1,65 +1,97 @@
 import * as yup from "yup";
-import { Button } from "@/app/components/atoms/Button";
-import { FullSelect } from "@/app/components/molecules/FullSelect";
-import { Input } from "../../atoms/Input";
 import { useToast } from "@/app/hooks/useToast";
-import { Controller, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import { Input } from "../../atoms/Input";
+import { Button } from "../../atoms/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { StatusSelect } from "../../molecules/selects/StatusSelect";
+import { GenderSelect } from "../../molecules/selects/GenderSelect";
+
+import localforage from "localforage";
+import { Character } from "@/app/types";
 
 const schema = yup
   .object()
   .shape({
-    name: yup.string().required("Required field"),
-    species: yup.string().required("Required field"),
-    type: yup.string().required("Required field"),
+    name: yup
+      .string()
+      .required("Required field")
+      .min(2, "Character name must be 2 characters or more"),
+    species: yup
+      .string()
+      .required("Required field")
+      .min(3, "Character species must be 3 characters or more"),
+
+    type: yup
+      .string()
+      .required("Required field")
+      .min(3, "Character type must be 3 characters or more"),
+    gender: yup.string().required("Required field"),
     status: yup.string().required("Required field"),
   })
   .required();
 
+interface Inputs {
+  name: string;
+  species: string;
+  type: string;
+  gender: string;
+  status: string;
+}
+
 export const NewCharacterForm = () => {
-  const { register, handleSubmit, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
+
   const { toast } = useToast();
-  const onSubmit = () => {
+
+  const onSubmit: SubmitHandler<Inputs> = async v => {
+    const cachedCharacters: Character[] =
+      (await localforage.getItem("characters")) || [];
+
+    const characterIds = [...cachedCharacters.map(char => char.id)];
+    cachedCharacters.push({
+      ...v,
+      // start new character ids at 10000 to not conflict with API in case new characters are added there
+      // gets max id from previously created characters an adds 1 to keep the continuity
+      id: characterIds.length ? Math.max(...characterIds) + 1 : 10000,
+      image: "https://rickandmortyapi.com/api/character/avatar/19.jpeg",
+    });
+    await localforage.setItem("characters", cachedCharacters);
+    reset();
     toast({ title: "Character succesfully created!" });
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col   gap-2">
       <label>Name</label>
       <Input placeholder="Name" type="text" {...register("name")} />
 
+      <p>{errors.name?.message}</p>
       <label>Species</label>
       <Input placeholder="Species" type="text" {...register("species")} />
+      <p>{errors.species?.message}</p>
       <label>Type</label>
       <Input placeholder="Type" type="text" {...register("type")} />
-      <div className="flex flex-wrap justify-center gap-2">
-        <Controller
-          name="status"
-          control={control}
-          render={({ field }) => (
-            <FullSelect
-              {...field}
-              placeholder="Status"
-              label="Status"
-              items={[
-                { value: "dead", name: "Dead" },
-                { value: "alive", name: "Alive" },
-                { value: "unknown", name: "Unknown" },
-              ]}
-            />
-          )}
-        />
-        <FullSelect
-          placeholder="Gender"
-          label="Gender"
-          items={[
-            { value: "male", name: "Male" },
-            { value: "female", name: "Female" },
-            { value: "genderless", name: "Genderless" },
-            { value: "unknown", name: "Unknown" },
-          ]}
-        />
+      <p>{errors.type?.message}</p>
+      <div className="flex  justify-center gap-2">
+        <div className="w-1/2">
+          {<StatusSelect control={control} />}
+          <p>{errors.status?.message}</p>
+        </div>
+
+        <div className="w-1/2">
+          {<GenderSelect control={control} />}
+          <p>{errors.gender?.message}</p>
+        </div>
       </div>
       <Button>Submit</Button>
     </form>
