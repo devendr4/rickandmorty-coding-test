@@ -20,7 +20,7 @@ export const EpisodeFiltersForm = () => {
   };
   return (
     <form
-      className="to-dark-green flex flex-wrap gap-3  rounded-t-md bg-gradient-to-r from-green p-4"
+      className=" flex flex-wrap gap-3  rounded-t-md bg-gradient-to-r from-green to-dark-green p-4"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex  flex-wrap items-center justify-around gap-2 md:w-8/12">

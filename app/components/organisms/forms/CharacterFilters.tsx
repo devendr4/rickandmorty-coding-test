@@ -24,7 +24,7 @@ export const CharacterFiltersForm = () => {
   };
   return (
     <form
-      className="to-dark-green flex flex-wrap gap-3  rounded-t-md bg-gradient-to-r from-green p-4"
+      className="flex flex-wrap gap-3  rounded-t-md bg-gradient-to-r from-green to-dark-green  p-4"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex w-full flex-wrap items-center justify-evenly gap-2 md:w-8/12">

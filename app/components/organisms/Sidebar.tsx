@@ -66,14 +66,13 @@ const Sidebar = () => {
     <div className="w-scren">
       <nav
         className={` ${open ? "w-10/12" : "w-0 "}
-		to-dark-green
-			absolute
+		  absolute
 		  top-0
-		  z-20
-		  h-screen
+			z-20
+			h-screen
 			overflow-hidden
-			bg-gradient-to-b
-			from-green
+		bg-gradient-to-b from-green
+		  to-dark-green
 
 
 		  text-2xl
