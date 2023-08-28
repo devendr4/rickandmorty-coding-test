@@ -8,7 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CharacterFiltersForm } from "../forms/CharacterFilters";
 import { GenericDataTable } from "./Generic";
 import { ActionsDropdown } from "../ActionsDropdown";
-import { EditCharacterModal } from "../modals/EditCharacter";
+import { EditModal } from "../modals/Edit";
 
 interface Props {
   characterInfo: CharacterInfo;
@@ -56,7 +56,7 @@ export const CharactersTable: FC<Props> = ({
     <div className="rounded-xl">
       <CharacterFiltersForm />
       {character && (
-        <EditCharacterModal
+        <EditModal
           isOpen={!!character}
           setOpen={() => setCharacter(undefined)}
           character={character}

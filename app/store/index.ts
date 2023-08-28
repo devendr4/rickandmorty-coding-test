@@ -4,6 +4,7 @@ import {
   Character,
   CharacterFilters,
   CharacterInfo,
+  Episode,
   EpisodeFilters,
   EpisodeInfo,
   UserData,
@@ -34,7 +35,7 @@ export const useRootStore = create<RootState>()(
     persist(
       (set, get) => ({
         userData: undefined,
-        isLoggedIn: !!cookies.get("logged") || false,
+        isLoggedIn: true, //!!cookies.get("logged") || false,
         characterInfo: undefined,
         characterFilters: undefined,
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
@@ -74,11 +75,44 @@ export const useRootStore = create<RootState>()(
 
         getEpisodes: async () => {
           const filters = get().episodeFilters;
-          const episodes = await getEpisodes({
+          const data = await getEpisodes({
             page: filters?.page || 0,
             filter: { ...filters },
           });
-          set(() => ({ episodeInfo: episodes }));
+
+          let cachedEpisodes: Episode[] =
+            (await localforage.getItem("episodes")) || [];
+
+          cachedEpisodes = cachedEpisodes.filter(ep => {
+            if (filters?.episode || filters?.name)
+              return (
+                (filters?.name &&
+                  ep.name.toLowerCase().includes(filters.name)) ||
+                (filters?.episode &&
+                  ep.episode.toLowerCase().includes(filters.episode))
+              );
+
+            return true;
+          });
+
+          const episodeCount = data.info.count + cachedEpisodes.length;
+
+          set(() => ({
+            episodeInfo: {
+              info: {
+                count: episodeCount,
+                pages: Math.ceil(episodeCount / 20),
+              },
+              //returns both cached and API episodes
+              episodes: [
+                ...cachedEpisodes,
+                // only return api episodes that haven't been edited and cached before
+                ...data.episodes.filter(
+                  ep => !cachedEpisodes.map(v => v.id).includes(ep.id)
+                ),
+              ],
+            },
+          }));
         },
 
         getCharacters: async () => {

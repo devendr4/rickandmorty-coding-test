@@ -1,17 +1,20 @@
-import { Character } from "@/app/types";
+import { Character, Episode } from "@/app/types";
 import { FC } from "react";
 import { CharacterForm } from "@/app/components/organisms/forms/Character";
+import { EpisodeForm } from "@/app/components/organisms/forms/Episode";
 import { AiOutlineClose } from "react-icons/ai";
 interface Props {
   isOpen: boolean;
   setOpen: (state: boolean) => void;
-  character: Character;
+  character?: Character;
+  episode?: Episode;
 }
 
-export const EditCharacterModal: FC<Props> = ({
+export const EditModal: FC<Props> = ({
   setOpen,
   isOpen,
   character,
+  episode,
 }) => {
   return isOpen ? (
     <>
@@ -19,7 +22,9 @@ export const EditCharacterModal: FC<Props> = ({
         <div className="relative mx-auto my-6 w-auto max-w-3xl">
           <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
             <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
-              <h3 className="text-3xl font-semibold">Edit {character.name}</h3>
+              <h3 className="text-3xl font-semibold">
+                Edit {character ? character.name : episode?.name}
+              </h3>
 
               <button
                 className="float-right ml-auto border-0  p-1 text-3xl font-semibold leading-none text-green outline-none focus:outline-none"
@@ -31,10 +36,17 @@ export const EditCharacterModal: FC<Props> = ({
               </button>
             </div>
             <div className="relative flex-auto p-6">
-              <CharacterForm
-                editedCharacter={character}
-                afterSubmit={() => setOpen(false)}
-              />
+              {character ? (
+                <CharacterForm
+                  editedCharacter={character}
+                  afterSubmit={() => setOpen(false)}
+                />
+              ) : (
+                <EpisodeForm
+                  editedEpisode={episode}
+                  afterSubmit={() => setOpen(false)}
+                />
+              )}
             </div>
           </div>
         </div>
