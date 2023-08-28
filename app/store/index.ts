@@ -41,8 +41,8 @@ export const useRootStore = create<RootState>()(
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
         setLoggedIn: () => {
           cookies.set("logged", "true", {
-            //cookie valid for 1 minute
-            expires: new Date(Date.now() + 1 * 60 * 1000),
+            //cookie valid for 10 minutes
+            expires: new Date(Date.now() + 10 * 60 * 1000),
           });
 
           set(() => ({ isLoggedIn: true }));
