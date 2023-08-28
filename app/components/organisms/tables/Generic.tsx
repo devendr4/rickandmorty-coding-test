@@ -44,7 +44,7 @@ export const GenericDataTable = <T extends object>({
   });
 
   return (
-    <div className="rounded-b-md bg-cyan">
+    <div className="to-dark-cyan rounded-b-md bg-gradient-to-r from-cyan opacity-90">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (

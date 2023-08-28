@@ -6,7 +6,7 @@ export const Card: FC<{ children: ReactNode; className?: string }> = ({
 }) => {
   return (
     <div
-      className={`flex flex-col gap-2 rounded bg-cyan bg-gradient-to-b from-cyan p-4  ${className} `}
+      className={`to-dark-cyan flex flex-col gap-2  rounded bg-gradient-to-r from-cyan p-4 opacity-90  ${className} `}
     >
       {children}
     </div>
