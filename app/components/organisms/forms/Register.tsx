@@ -50,18 +50,17 @@ export const RegisterForm = () => {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      {/* <h2>Register</h2> */}
-      <label>username</label>
+      <label>Username</label>
       <Input defaultValue="" {...register("username")} />
       <p>{errors.username?.message}</p>
-      <label>password</label>
+      <label>Password</label>
       <Input type={"password"} {...register("pwd")} />
       <p>{errors.pwd?.message}</p>
-      <label>confirm password</label>
+      <label>Confirm password</label>
       <Input type={"password"} {...register("confirmPwd")} />
       <p>{errors.confirmPwd?.message}</p>
       <Button className="border-dark-blue p-2" type="submit">
-        submit
+        Submit
       </Button>
     </form>
   );
