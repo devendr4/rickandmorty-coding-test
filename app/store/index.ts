@@ -106,6 +106,7 @@ export const useRootStore = create<RootState>()(
             return true;
           });
           const characterCount = data.info.count + cachedCharacters.length;
+
           set(() => ({
             characterInfo: {
               info: {
@@ -113,7 +114,13 @@ export const useRootStore = create<RootState>()(
                 pages: Math.ceil(characterCount / 20),
               },
               //returns both cached and API characters
-              characters: [...cachedCharacters, ...data.characters],
+              characters: [
+                ...cachedCharacters,
+                // only return api characters that haven't been edited and cached before
+                ...data.characters.filter(
+                  ch => !cachedCharacters.map(v => v.id).includes(ch.id)
+                ),
+              ],
             },
           }));
         },
