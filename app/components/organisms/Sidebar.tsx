@@ -22,6 +22,19 @@ const Sidebar = () => {
       Icon: BsPlusCircle,
       auth: true,
       route: "/create",
+
+      children: [
+        {
+          title: "characters",
+          Icon: BsFillPersonFill,
+          route: "/create/character",
+        },
+        {
+          title: "episodes",
+          Icon: PiTelevision,
+          route: "/create/episode",
+        },
+      ],
     },
     {
       title: "queries",

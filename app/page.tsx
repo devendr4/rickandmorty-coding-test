@@ -28,8 +28,17 @@ export default function Login() {
         </Button>
       ) : (
         <div className="flex flex-col gap-3">
-          <Button variant="secondary" onClick={() => router.push("/create")}>
+          <Button
+            variant="secondary"
+            onClick={() => router.push("/create/character")}
+          >
             Create a new character
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => router.push("/create/episode")}
+          >
+            Create a new episode
           </Button>
           <Button
             variant="secondary"

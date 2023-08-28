@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { EpisodeFiltersForm } from "../forms/EpisodeFilters";
 import { GenericDataTable } from "./Generic";
 import { ActionsDropdown } from "../ActionsDropdown";
+import { EditModal } from "../modals/Edit";
 
 export const EpisodesTable: FC<{
   data: EpisodeInfo;
@@ -30,13 +31,18 @@ export const EpisodesTable: FC<{
   return (
     <div className="rounded-xl">
       <EpisodeFiltersForm />
-      <div className="rounded-b-md bg-cyan">
-        <GenericDataTable
-          columns={columns}
-          data={{ results, info }}
-          dataType="episode"
+      {episode && (
+        <EditModal
+          isOpen={!!episode}
+          setOpen={() => setEpisode(undefined)}
+          episode={episode}
         />
-      </div>
+      )}
+      <GenericDataTable
+        columns={columns}
+        data={{ results, info }}
+        dataType="episode"
+      />
     </div>
   );
 };
