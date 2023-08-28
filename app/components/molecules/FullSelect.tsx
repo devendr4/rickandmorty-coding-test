@@ -11,6 +11,7 @@ import { FC } from "react";
 
 interface Props {
   placeholder: string;
+  handleChange?: (value: string) => void;
   label: string;
   items: {
     value: string;
@@ -18,10 +19,15 @@ interface Props {
   }[];
 }
 
-export const FullSelect: FC<Props> = ({ placeholder, label, items }) => {
+export const FullSelect: FC<Props> = ({
+  placeholder,
+  label,
+  items,
+  handleChange,
+}) => {
   return (
-    <Select>
-      <SelectTrigger className="w-[180px]">
+    <Select onValueChange={handleChange}>
+      <SelectTrigger className="w-full">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

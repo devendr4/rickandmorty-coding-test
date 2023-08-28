@@ -7,7 +7,7 @@ import { useRootStore } from "../store";
 export default function Login() {
   const { userData } = useRootStore();
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center gap-4 text-dark-blue">
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-4  text-dark-blue">
       <h1 className="font-schwifty text-5xl text-cyan">
         {userData ? "Login" : "Register"}
       </h1>

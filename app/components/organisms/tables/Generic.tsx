@@ -35,7 +35,7 @@ export const GenericDataTable = <T extends object>({
     state: {
       pagination: {
         pageSize: 20,
-        pageIndex: info?.next ? info.next - 1 : info.prev ? info.prev + 1 : 0,
+        pageIndex: info?.next ? info.next - 1 : info.prev ? info.prev + 1 : 1,
       },
     },
     getCoreRowModel: getCoreRowModel(),
