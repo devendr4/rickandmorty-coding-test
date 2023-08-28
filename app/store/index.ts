@@ -35,7 +35,7 @@ export const useRootStore = create<RootState>()(
     persist(
       (set, get) => ({
         userData: undefined,
-        isLoggedIn: true, //!!cookies.get("logged") || false,
+        isLoggedIn: !!cookies.get("logged") || false,
         characterInfo: undefined,
         characterFilters: undefined,
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
