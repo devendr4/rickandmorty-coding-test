@@ -10,6 +10,5 @@
   "semi": true,
   "useTabs": false,
   "bracketSpacing": true,
-  "singleQuote": false,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "singleQuote": false
 }

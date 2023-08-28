@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../../atoms/Button";
 import { useRouter } from "next/navigation";
 import { Input } from "../../atoms/Input";
+import localforage from "localforage";
 
 interface Inputs {
   username: string;
@@ -45,18 +46,32 @@ export const LoginForm = () => {
     setLoggedIn();
     router.replace("/");
   };
+
+  const onResetSubmit = async () => {
+    localStorage.clear();
+    await localforage.clear();
+    router.replace("/register");
+  };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-      {/* <h2>Login</h2> */}
-      <label>username</label>
-      <Input defaultValue="" {...register("username")} />
-      <p>{errors.username?.message}</p>
-      <label>password</label>
-      <Input type={"password"} {...register("pwd")} />
-      <p>{errors.pwd?.message}</p>
-      <Button className="border-dark-blue p-2" type="submit">
-        submit
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+        {/* <h2>Login</h2> */}
+        <label>Username</label>
+        <Input defaultValue="" {...register("username")} />
+        <p>{errors.username?.message}</p>
+        <label>Password</label>
+        <Input type={"password"} {...register("pwd")} />
+        <p>{errors.pwd?.message}</p>
+        <Button className="border-dark-blue p-2" type="submit">
+          Submit
+        </Button>
+      </form>
+      <button
+        className="font-bold text-white underline"
+        onClick={onResetSubmit}
+      >
+        Reset
+      </button>
+    </>
   );
 };

@@ -18,8 +18,10 @@ const config: Config = {
     extend: {
       colors: {
         green: "#9fc740",
+        "dark-green": "#31513d",
         "dark-blue": "#1e2144",
         cyan: "#1b9ba1",
+        "dark-cyan": "#0f676b",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
