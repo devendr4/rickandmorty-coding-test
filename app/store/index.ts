@@ -11,6 +11,7 @@ import {
 import { getCharacters } from "../services/getCharacters";
 import { getEpisodes } from "../services/getEpisodes";
 import localforage from "localforage";
+import Cookies from "universal-cookie";
 
 interface RootState {
   userData?: UserData;
@@ -27,16 +28,24 @@ interface RootState {
   setEpisodeFilters: (filters?: EpisodeFilters) => Promise<void>;
 }
 
+const cookies = new Cookies(null, { path: "/" });
 export const useRootStore = create<RootState>()(
   devtools(
     persist(
       (set, get) => ({
         userData: undefined,
-        isLoggedIn: true,
+        isLoggedIn: !!cookies.get("logged") || false,
         characterInfo: undefined,
         characterFilters: undefined,
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
-        setLoggedIn: () => set(() => ({ isLoggedIn: true })),
+        setLoggedIn: () => {
+          cookies.set("logged", "true", {
+            //cookie valid for 1 minute
+            expires: new Date(Date.now() + 1 * 60 * 1000),
+          });
+
+          set(() => ({ isLoggedIn: true }));
+        },
 
         setCharacterFilters: async filters => {
           set(() => {
