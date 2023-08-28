@@ -1,4 +1,3 @@
-"use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useRootStore } from "@/app/store";
@@ -17,7 +16,6 @@ export const LoginForm = () => {
   const { userData, setLoggedIn } = useRootStore();
   const router = useRouter();
 
-  console.log(userData);
   const schema = yup
     .object()
     .shape({

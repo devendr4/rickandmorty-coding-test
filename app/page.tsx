@@ -6,7 +6,7 @@ import { useRootStore } from "./store";
 export default function Login() {
   const router = useRouter();
 
-  const { isLoggedIn } = useRootStore();
+  const { isLoggedIn, userData } = useRootStore();
   return (
     <div className="mt-20 flex w-full flex-col items-center justify-center gap-4 text-center">
       <h1 className="mb-4 text-center font-schwifty text-7xl text-cyan">
@@ -18,7 +18,12 @@ export default function Login() {
         you need under one place!
       </p>
       {!isLoggedIn ? (
-        <Button variant="secondary" onClick={() => router.push("/login")}>
+        <Button
+          variant="secondary"
+          onClick={() =>
+            userData ? router.push("/login") : router.push("/register")
+          }
+        >
           Sign in / Register
         </Button>
       ) : (
