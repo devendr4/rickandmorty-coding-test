@@ -22,6 +22,19 @@ const Sidebar = () => {
       Icon: BsPlusCircle,
       auth: true,
       route: "/create",
+
+      children: [
+        {
+          title: "characters",
+          Icon: BsFillPersonFill,
+          route: "/create/character",
+        },
+        {
+          title: "episodes",
+          Icon: PiTelevision,
+          route: "/create/episode",
+        },
+      ],
     },
     {
       title: "queries",
@@ -55,7 +68,7 @@ const Sidebar = () => {
         className={`bg-green ${open ? "w-10/12" : "w-0 "}
 		absolute
 		  top-0
-		  z-50
+		  z-20
 		  h-screen
 			overflow-hidden
 

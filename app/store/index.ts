@@ -4,12 +4,15 @@ import {
   Character,
   CharacterFilters,
   CharacterInfo,
+  Episode,
   EpisodeFilters,
   EpisodeInfo,
   UserData,
 } from "../types";
 import { getCharacters } from "../services/getCharacters";
 import { getEpisodes } from "../services/getEpisodes";
+import localforage from "localforage";
+import Cookies from "universal-cookie";
 
 interface RootState {
   userData?: UserData;
@@ -26,16 +29,24 @@ interface RootState {
   setEpisodeFilters: (filters?: EpisodeFilters) => Promise<void>;
 }
 
+const cookies = new Cookies(null, { path: "/" });
 export const useRootStore = create<RootState>()(
   devtools(
     persist(
       (set, get) => ({
         userData: undefined,
-        isLoggedIn: true,
+        isLoggedIn: !!cookies.get("logged") || false,
         characterInfo: undefined,
         characterFilters: undefined,
         setUserData: user => set(() => ({ userData: user, isLoggedIn: true })),
-        setLoggedIn: () => set(() => ({ isLoggedIn: true })),
+        setLoggedIn: () => {
+          cookies.set("logged", "true", {
+            //cookie valid for 1 minute
+            expires: new Date(Date.now() + 1 * 60 * 1000),
+          });
+
+          set(() => ({ isLoggedIn: true }));
+        },
 
         setCharacterFilters: async filters => {
           set(() => {
@@ -49,7 +60,6 @@ export const useRootStore = create<RootState>()(
           });
           await get().getCharacters();
         },
-
         setEpisodeFilters: async filters => {
           set(() => {
             // to persist previous filters
@@ -65,32 +75,59 @@ export const useRootStore = create<RootState>()(
 
         getEpisodes: async () => {
           const filters = get().episodeFilters;
-          const episodes = await getEpisodes({
+          const data = await getEpisodes({
             page: filters?.page || 0,
             filter: { ...filters },
           });
-          set(() => ({ episodeInfo: episodes }));
+
+          let cachedEpisodes: Episode[] =
+            (await localforage.getItem("episodes")) || [];
+
+          cachedEpisodes = cachedEpisodes.filter(ep => {
+            if (filters?.episode || filters?.name)
+              return (
+                (filters?.name &&
+                  ep.name.toLowerCase().includes(filters.name)) ||
+                (filters?.episode &&
+                  ep.episode.toLowerCase().includes(filters.episode))
+              );
+
+            return true;
+          });
+
+          const episodeCount = data.info.count + cachedEpisodes.length;
+
+          set(() => ({
+            episodeInfo: {
+              info: {
+                count: episodeCount,
+                pages: Math.ceil(episodeCount / 20),
+              },
+              //returns both cached and API episodes
+              episodes: [
+                ...cachedEpisodes,
+                // only return api episodes that haven't been edited and cached before
+                ...data.episodes.filter(
+                  ep => !cachedEpisodes.map(v => v.id).includes(ep.id)
+                ),
+              ],
+            },
+          }));
         },
 
         getCharacters: async () => {
           const filters = get().characterFilters;
-          let cachedCharacters: Character[] = JSON.parse(
-            localStorage.getItem("characters") || "[]"
-          );
+          // find created or edited characters
+          let cachedCharacters: Character[] =
+            (await localforage.getItem("characters")) || [];
+
+          // get regular characters from API
           const data = await getCharacters({
             page: filters?.page || 0,
             filter: { ...filters },
           });
 
-          const cachedIds = new Set(cachedCharacters.map(char => char.id));
-          cachedCharacters = [
-            ...new Set([
-              ...cachedCharacters,
-              ...data.characters.filter(newChar => !cachedIds.has(newChar.id)),
-            ]),
-          ];
-          console.log(cachedCharacters);
-          localStorage.setItem("characters", JSON.stringify(cachedCharacters));
+          // filter local cached characters
           cachedCharacters = cachedCharacters.filter(char => {
             if (
               filters?.status ||
@@ -111,14 +148,23 @@ export const useRootStore = create<RootState>()(
 
             return true;
           });
+          const characterCount = data.info.count + cachedCharacters.length;
+
           set(() => ({
-            characterInfo: data /* {
+            characterInfo: {
               info: {
-                count: cachedCharacters.length,
-                pages: Math.ceil(cachedCharacters.length / 20),
+                count: characterCount,
+                pages: Math.ceil(characterCount / 20),
               },
-              characters: cachedCharacters,
-            } */,
+              //returns both cached and API characters
+              characters: [
+                ...cachedCharacters,
+                // only return api characters that haven't been edited and cached before
+                ...data.characters.filter(
+                  ch => !cachedCharacters.map(v => v.id).includes(ch.id)
+                ),
+              ],
+            },
           }));
         },
       }),
